@@ -189,6 +189,7 @@ class RewardsServiceImpl : public RewardsService,
   void SetContributionAmount(double amount) const override;
   void SetUserChangedContribution() const override;
   void SetAutoContribute(bool enabled) const override;
+  void OnContributionAmountSet() override;
 
   // URLFetcherDelegate impl
   void OnURLFetchComplete(const net::URLFetcher* source) override;
