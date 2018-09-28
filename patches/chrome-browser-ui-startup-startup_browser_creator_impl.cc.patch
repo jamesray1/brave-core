@@ -1,0 +1,19 @@
+diff --git a/chrome/browser/ui/startup/startup_browser_creator_impl.cc b/chrome/browser/ui/startup/startup_browser_creator_impl.cc
+index 98280ffefa817e0e417b8431f8610dfdf822b2fc..6e8d1e13da05ce51b341889ecfd61006fff8ad74 100644
+--- a/chrome/browser/ui/startup/startup_browser_creator_impl.cc
++++ b/chrome/browser/ui/startup/startup_browser_creator_impl.cc
+@@ -800,8 +800,14 @@ void StartupBrowserCreatorImpl::AddInfoBarsIfNecessary(
+     chrome::ShowBadFlagsPrompt(web_contents);
+     InfoBarService* infobar_service =
+         InfoBarService::FromWebContents(web_contents);
++#if defined(BRAVE_CHROMIUM_BUILD)
++// Do not show missing API keys message bar
++// if OAuthClient is not configured
++    if (!google_apis::HasAPIKeyConfigured()) {
++#else
+     if (!google_apis::HasAPIKeyConfigured() ||
+         !google_apis::HasOAuthClientConfigured()) {
++#endif
+       GoogleApiKeysInfoBarDelegate::Create(infobar_service);
+     }
+     if (ObsoleteSystem::IsObsoleteNowOrSoon()) {
